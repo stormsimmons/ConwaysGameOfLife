@@ -1,0 +1,16 @@
+{
+  "name": "gameoflife",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc & browserify ./src/GameOfLife.js --s GameOfLife -o ./src/bundle.js"
+  },
+  "devDependencies": {
+    "browserfy": "^1.0.0",
+    "browserify": "^14.5.0"
+  },
+  "dependencies": {
+    "uniq": "^1.0.1",
+    "webpack": "^3.8.1"
+  }
+}
