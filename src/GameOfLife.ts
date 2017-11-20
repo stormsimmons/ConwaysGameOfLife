@@ -37,7 +37,6 @@ export function buildTable() {
         }
 }
 
-
 export function clickAlive(cell: HTMLElement) {
 
         var style = cell.getAttribute("style");
