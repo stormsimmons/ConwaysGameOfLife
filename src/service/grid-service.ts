@@ -63,7 +63,6 @@ export class GridService {
         return counter
     }
 
-
     private killCells(cellArray:Cell[]):void{
         cellArray.forEach(cell => {
             cell.kill();

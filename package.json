@@ -5,7 +5,7 @@
   "scripts": {
     "build": "tsc & browserify ./dist/game-of-life.js --s GameOfLife -o ./dist/bundle.js",
     "test": "tsc &  mocha --timeout=5000 ./dist/**/*.test.js",
-    "cc" : "tsc & nyc --reporter=text mocha --timeout=5000 ./dist/**/*.test.js"
+    "code-coverage" : "tsc & nyc --reporter=text mocha --timeout=5000 ./dist/**/*.test.js"
   },
   "devDependencies": {
     "browserfy": "^1.0.0",
