@@ -6,17 +6,16 @@
 
 <body>
 
-    <div>
-        <table id="table">
-        </table>
+    <div id="gridDiv">
+      
     </div>
-    <button type="button" id="start" class="btn btn-primary"  onclick="GameOfLife.startGame(table);">Begin</button>
-    <button type="button" id="end" class="btn btn-primary"  disabled onclick="GameOfLife.stopGame(table);">Stop</button>
-    <button type="button" id="clear" class="btn btn-primary" onclick="GameOfLife.clearGrid(table);">Clear Grid</button>
+    <button type="button" id="start" class="btn btn-primary"  onclick="GameOfLife.startGame();">Begin</button>
+    <button type="button" id="end" class="btn btn-primary"  disabled onclick="GameOfLife.stopGame();">Stop</button>
+    <button type="button" id="clear" class="btn btn-primary" onclick="GameOfLife.clearGrid();">Clear Grid</button>
     
 </body>
 
-<script src="./bundle.js"></script>
+<script src="./dist/bundle.js"></script>
 
 <script>
     (function () {
@@ -35,8 +34,6 @@
 
 });
 </script>
-
-
 
 <style>
     .row {
