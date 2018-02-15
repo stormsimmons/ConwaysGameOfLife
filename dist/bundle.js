@@ -35,26 +35,45 @@ function buildTable() {
 exports.buildTable = buildTable;
 function clickAlive(element) {
     let cell = getCellByHtmlId(element.id);
-    cell.isAlive = true;
-    buildTable();
+    if (cell.isAlive) {
+        cell.isAlive = false;
+    }
+    else {
+        cell.isAlive = true;
+    }
+    processGrid();
 }
 exports.clickAlive = clickAlive;
 function clearGrid() {
     gridService.resetGrid();
-    buildTable();
+    processGrid();
 }
 exports.clearGrid = clearGrid;
 function startGame() {
     generationIteration = setInterval(function () {
         gridService.nextGeneration();
-        buildTable();
-    }, 100);
+        processGrid();
+    }, 10);
 }
 exports.startGame = startGame;
 function stopGame() {
     clearInterval(generationIteration);
 }
 exports.stopGame = stopGame;
+function processGrid() {
+    let htmlTable = getHtmlTabel();
+    let grid = gridService.getGrid();
+    for (var i = 0; i < grid.width; i++) {
+        for (var j = 0; j < grid.height; j++) {
+            if (grid.cellArray[i][j].isAlive) {
+                document.getElementById(`trid-${i}-tdid-${j}`).setAttribute("style", "background-color: black;");
+            }
+            else {
+                document.getElementById(`trid-${i}-tdid-${j}`).setAttribute("style", "background-color: white;");
+            }
+        }
+    }
+}
 function getCellByHtmlId(id) {
     var splitId = id.split('-');
     var cellRow = parseInt(splitId[1]);
@@ -65,10 +84,8 @@ function getHtmlTabel() {
     const htmlDiv = document.getElementById("gridDiv");
     let htmlTable = document.createElement("table");
     htmlTable.setAttribute("id", "gridTable");
-    if (document.getElementById('gridTable')) {
-        htmlDiv.removeChild(document.getElementById('gridTable'));
-    }
-    htmlDiv.appendChild(htmlTable);
+    if (!document.getElementById('gridTable'))
+        htmlDiv.appendChild(htmlTable);
     return htmlTable;
 }
 

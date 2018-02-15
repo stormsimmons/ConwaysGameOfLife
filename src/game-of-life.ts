@@ -4,8 +4,8 @@ import {Grid} from './model/grid';
 import {Cell} from './model/cell';
 
    
-const  cellService = new CellService();
-const gridService = new GridService(cellService);
+const  cellService:CellService = new CellService();
+const gridService:GridService = new GridService(cellService);
 let generationIteration;
    
 // public functions 
@@ -42,27 +42,48 @@ let generationIteration;
 
     export function clickAlive(element:HTMLElement){
        let cell:Cell =  getCellByHtmlId(element.id)
-       cell.isAlive = true;
-       buildTable();
+       if(cell.isAlive){
+       cell.isAlive = false;
+       }else{
+           cell.isAlive = true;
+       }
+       processGrid();
     }
 
     export function clearGrid(){
         gridService.resetGrid()
-        buildTable();    
+        processGrid();    
     }
 
 
     export function startGame() {
             generationIteration = setInterval(function () {
                 gridService.nextGeneration();
-                buildTable();
-            }, 100);
+                processGrid();
+            }, 10);
     }
     export function stopGame() {
             clearInterval(generationIteration);
     }
 
     //private functions 
+
+    function processGrid(){
+        let htmlTable = getHtmlTabel();
+        let grid:Grid = gridService.getGrid();
+
+        for(var i = 0 ; i < grid.width; i++){
+            for(var j =0 ; j< grid.height; j++){
+                if(grid.cellArray[i][j].isAlive){
+                    document.getElementById(`trid-${i}-tdid-${j}`).setAttribute("style", "background-color: black;");
+                }else{
+                    document.getElementById(`trid-${i}-tdid-${j}`).setAttribute("style", "background-color: white;");
+                }
+            }
+        }
+
+    }
+
     function getCellByHtmlId(id:string):Cell{
         var splitId = id.split('-');
         var cellRow = parseInt(splitId[1]);
@@ -77,10 +98,7 @@ let generationIteration;
         let htmlTable = document.createElement("table");
         htmlTable.setAttribute("id","gridTable");
 
-        if(document.getElementById('gridTable')){
-            htmlDiv.removeChild(document.getElementById('gridTable'));
-        }
-
+        if(!document.getElementById('gridTable'))
         htmlDiv.appendChild(htmlTable);
 
         return htmlTable;
