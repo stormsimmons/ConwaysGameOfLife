@@ -1,16 +1,16 @@
-export class Cell{
-     
+export class Cell {
+
      constructor(public x:number , public y:number ) {}
      public isAlive:boolean = false;
 
-     kill():void{
-        if(this.isAlive){
+     kill():void {
+        if(this.isAlive) {
             this.isAlive = false;
-        } 
+        }
      }
-     resurrect():void{
-        if(!this.isAlive){
+     resurrect():void {
+        if(!this.isAlive) {
             this.isAlive = true;
-        } 
+        }
      }
 }

@@ -1,36 +1,36 @@
-import { GridService } from './service/grid-service';
-import { CellService } from './service/cell-service';
-import {Grid} from './model/grid';
-import {Cell} from './model/cell';
+import { GridService } from "./service/grid-service";
+import { CellService } from "./service/cell-service";
+import {Grid} from "./model/grid";
+import {Cell} from "./model/cell";
 
-   
 const  cellService:CellService = new CellService();
 const gridService:GridService = new GridService(cellService);
-let generationIteration;
-   
-// public functions 
-   export function buildTable() {
+
+let generationIteration : any;
+
+// public functions
+   export function buildTable(): void {
         let grid:Grid = gridService.getGrid();
 
-        const htmlDiv = document.getElementById("gridDiv");
+        const htmlDiv: HTMLElement = document.getElementById("gridDiv");
 
-        const htmlTable = getHtmlTabel();
+        const htmlTable: HTMLElement = getHtmlTabel();
 
         htmlDiv.appendChild(htmlTable);
 
-        for (var i = 0; i < grid.width; i++) {
-            var trTag = document.createElement("tr");
+        for (var i:number = 0; i < grid.width; i++) {
+            var trTag: HTMLElement = document.createElement("tr");
             trTag.setAttribute("id", `trid-${i}`);
             trTag.setAttribute("class", "row");
             htmlTable.appendChild(trTag);
 
-            for (var j = 0; j < grid.height; j++) {
-                let cell = grid.cellArray[i][j];
-                var tdTag = document.createElement("td");
+            for (var j: number = 0; j < grid.height; j++) {
+                let cell:Cell = grid.cellArray[i][j];
+                var tdTag: HTMLElement = document.createElement("td");
                 tdTag.setAttribute("id", `trid-${cell.x}-tdid-${cell.y}`);
-                if(cell.isAlive){
+                if(cell.isAlive) {
                     tdTag.setAttribute("style", "background-color: black;");
-                }else{
+                } else {
                     tdTag.setAttribute("style", "background-color: white;");
                 }
                 tdTag.setAttribute("class", "column");
@@ -40,43 +40,42 @@ let generationIteration;
         }
     }
 
-    export function clickAlive(element:HTMLElement){
-       let cell:Cell =  getCellByHtmlId(element.id)
-       if(cell.isAlive){
+    export function clickAlive(element:HTMLElement): void {
+       let cell:Cell =  getCellByHtmlId(element.id);
+       if(cell.isAlive) {
        cell.isAlive = false;
-       }else{
+       } else {
            cell.isAlive = true;
        }
        processGrid();
     }
 
-    export function clearGrid(){
-        gridService.resetGrid()
-        processGrid();    
+    export function clearGrid(): void {
+        gridService.resetGrid();
+        processGrid();
     }
 
 
-    export function startGame() {
-            generationIteration = setInterval(function () {
+    export function startGame():void {
+            generationIteration = setInterval(() => {
                 gridService.nextGeneration();
                 processGrid();
             }, 10);
     }
-    export function stopGame() {
+    export function stopGame(): void {
             clearInterval(generationIteration);
     }
 
-    //private functions 
-
-    function processGrid(){
-        let htmlTable = getHtmlTabel();
+    // private functions
+    function processGrid(): void {
+        let htmlTable: HTMLElement = getHtmlTabel();
         let grid:Grid = gridService.getGrid();
 
-        for(var i = 0 ; i < grid.width; i++){
-            for(var j =0 ; j< grid.height; j++){
-                if(grid.cellArray[i][j].isAlive){
+        for(var i: number = 0 ; i < grid.width; i++) {
+            for(var j : number =0 ; j< grid.height; j++) {
+                if(grid.cellArray[i][j].isAlive) {
                     document.getElementById(`trid-${i}-tdid-${j}`).setAttribute("style", "background-color: black;");
-                }else{
+                } else {
                     document.getElementById(`trid-${i}-tdid-${j}`).setAttribute("style", "background-color: white;");
                 }
             }
@@ -84,22 +83,23 @@ let generationIteration;
 
     }
 
-    function getCellByHtmlId(id:string):Cell{
-        var splitId = id.split('-');
-        var cellRow = parseInt(splitId[1]);
-        var cellCol = parseInt(splitId[3]);
+    function getCellByHtmlId(id:string):Cell {
+        var splitId:string[] = id.split("-");
+        var cellRow:number = parseInt(splitId[1] ,10);
+        var cellCol:number = parseInt(splitId[3] ,10);
 
         return gridService.getGrid().cellArray[cellRow][cellCol];
     }
 
-     function getHtmlTabel():HTMLElement{
-        const htmlDiv = document.getElementById("gridDiv");
+     function getHtmlTabel():HTMLElement {
+        const htmlDiv:HTMLElement = document.getElementById("gridDiv");
 
-        let htmlTable = document.createElement("table");
+        let htmlTable:HTMLElement = document.createElement("table");
         htmlTable.setAttribute("id","gridTable");
 
-        if(!document.getElementById('gridTable'))
+        if(!document.getElementById("gridTable")) {
         htmlDiv.appendChild(htmlTable);
+        }
 
         return htmlTable;
     }

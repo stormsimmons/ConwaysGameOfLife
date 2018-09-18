@@ -1,6 +1,20 @@
 (function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.GameOfLife = f()}})(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const grid_1 = require("../model/grid");
+class GridFactory {
+    getGrid() {
+        if (!this._grid) {
+            this._grid = new grid_1.Grid(50, 50);
+        }
+        return this._grid;
+    }
+}
+exports.GridFactory = GridFactory;
+
+},{"../model/grid":4}],2:[function(require,module,exports){
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 const grid_service_1 = require("./service/grid-service");
 const cell_service_1 = require("./service/cell-service");
 const cellService = new cell_service_1.CellService();
@@ -50,7 +64,7 @@ function clearGrid() {
 }
 exports.clearGrid = clearGrid;
 function startGame() {
-    generationIteration = setInterval(function () {
+    generationIteration = setInterval(() => {
         gridService.nextGeneration();
         processGrid();
     }, 10);
@@ -75,21 +89,22 @@ function processGrid() {
     }
 }
 function getCellByHtmlId(id) {
-    var splitId = id.split('-');
-    var cellRow = parseInt(splitId[1]);
-    var cellCol = parseInt(splitId[3]);
+    var splitId = id.split("-");
+    var cellRow = parseInt(splitId[1], 10);
+    var cellCol = parseInt(splitId[3], 10);
     return gridService.getGrid().cellArray[cellRow][cellCol];
 }
 function getHtmlTabel() {
     const htmlDiv = document.getElementById("gridDiv");
     let htmlTable = document.createElement("table");
     htmlTable.setAttribute("id", "gridTable");
-    if (!document.getElementById('gridTable'))
+    if (!document.getElementById("gridTable")) {
         htmlDiv.appendChild(htmlTable);
+    }
     return htmlTable;
 }
 
-},{"./service/cell-service":4,"./service/grid-service":5}],2:[function(require,module,exports){
+},{"./service/cell-service":5,"./service/grid-service":6}],3:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class Cell {
@@ -111,7 +126,7 @@ class Cell {
 }
 exports.Cell = Cell;
 
-},{}],3:[function(require,module,exports){
+},{}],4:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const cell_1 = require("./cell");
@@ -123,7 +138,7 @@ class Grid {
     }
     initalizeGrid() {
         if (!this.height || !this.width) {
-            throw new Error('Please make sure both height and width have values');
+            throw new Error("Please make sure both height and width have values");
         }
         this.cellArray = [];
         for (let i = 0; i < this.width; i++) {
@@ -136,12 +151,10 @@ class Grid {
 }
 exports.Grid = Grid;
 
-},{"./cell":2}],4:[function(require,module,exports){
+},{"./cell":3}],5:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class CellService {
-    constructor() {
-    }
     getNeighbourCells(cell, gridState) {
         let neighbours = [];
         let keys = [
@@ -167,21 +180,21 @@ class CellService {
 }
 exports.CellService = CellService;
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const grid_1 = require("../model/grid");
+const grid_factory_1 = require("../factory/grid-factory");
 class GridService {
     constructor(cellService) {
         this._cellService = cellService;
-        this._grid = new grid_1.Grid(60, 60);
+        this._grid = new grid_factory_1.GridFactory().getGrid();
     }
     getGrid() {
         return this._grid;
     }
     resetGrid() {
-        for (var i = 0; i < this._grid.width; i++) {
-            for (var j = 0; j < this._grid.height; j++) {
+        for (let i = 0; i < this._grid.width; i++) {
+            for (let j = 0; j < this._grid.height; j++) {
                 this._grid.cellArray[i][j].kill();
             }
         }
@@ -189,8 +202,8 @@ class GridService {
     nextGeneration() {
         let cellsToKill = [];
         let cellsToResurect = [];
-        for (var i = 0; i < this._grid.width; i++) {
-            for (var j = 0; j < this._grid.height; j++) {
+        for (let i = 0; i < this._grid.width; i++) {
+            for (let j = 0; j < this._grid.height; j++) {
                 let currentCell = this._grid.cellArray[i][j];
                 let neighbours = this._cellService.getNeighbourCells(currentCell, this._grid);
                 let aliveNeighbours = this.getAliveNeighbours(neighbours);
@@ -216,8 +229,9 @@ class GridService {
     getAliveNeighbours(neighbours) {
         let counter = 0;
         neighbours.forEach(neighbour => {
-            if (neighbour.isAlive)
+            if (neighbour.isAlive) {
                 counter++;
+            }
         });
         return counter;
     }
@@ -234,5 +248,5 @@ class GridService {
 }
 exports.GridService = GridService;
 
-},{"../model/grid":3}]},{},[1])(1)
+},{"../factory/grid-factory":1}]},{},[2])(2)
 });

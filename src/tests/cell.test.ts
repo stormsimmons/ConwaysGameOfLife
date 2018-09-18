@@ -1,9 +1,9 @@
-import { expect } from 'chai';
-import 'mocha';
-import * as sinon from 'sinon';
-import { Cell } from '../model/cell';
+import { expect } from "chai";
+import "mocha";
+import * as sinon from "sinon";
+import { Cell } from "../model/cell";
 
-describe('Cell Tests', () => {
+describe("Cell Tests", () => {
 
     let cell: Cell;
 
@@ -12,14 +12,14 @@ describe('Cell Tests', () => {
         cell.isAlive = true;
     });
 
-    describe('kill', () => {
+    describe("kill", () => {
 
-        it('should set isAlive to false when true', () => {
+        it("should set isAlive to false when true", () => {
             cell.kill();
             expect(cell.isAlive).to.be.false;
         });
 
-        it('should set isAlive to false when false', () => {
+        it("should set isAlive to false when false", () => {
             let trueCell: Cell = new Cell(10, 10)
 
             trueCell.kill();
@@ -27,14 +27,14 @@ describe('Cell Tests', () => {
         });
     })
 
-    describe('resurrect', () => {
+    describe("resurrect", () => {
 
-        it('should set isAlive to true when true', () => {
+        it("should set isAlive to true when true", () => {
             cell.resurrect();
             expect(cell.isAlive).to.be.true;
         });
 
-        it('should set isAlive to true when false', () => {
+        it("should set isAlive to true when false", () => {
             let trueCell: Cell = new Cell(10, 10)
 
             trueCell.resurrect();
