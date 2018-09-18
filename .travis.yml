@@ -5,6 +5,7 @@ node_js:
   - "4.0"
 install:
   - npm install
+  - npm install typescript -g
 script:
   - npm run build
   - npm test
